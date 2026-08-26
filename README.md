@@ -3,7 +3,7 @@
 ## 📦 Integrantes
 #1 ....
 #2 ....
-.
+#3 Emanuel Sanchez
 .
 .
 
