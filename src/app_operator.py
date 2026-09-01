@@ -46,14 +46,7 @@ def build_cli_parser() -> argparse.ArgumentParser:
         default=2.5,
         help="Tiempo de espera límite para las peticiones HTTP (0.1s - 5.0s)."
     )
-    
-    # Bandera opcional: Forzar inyección de Caos real para pruebas
-    parser.add_argument(
-        "--chaos",
-        action="store_true",
-        help="Forzar inyección de caos probabilístico en las APIs de nube reales."
-    )
-    
+
     # Restricción de dominio: Modos operativos
     parser.add_argument(
         "-m", "--mode",
@@ -62,6 +55,29 @@ def build_cli_parser() -> argparse.ArgumentParser:
         help="Modo de operación del despachador de telemetría."
     )
 
+    # Bandera opcional: Forzar inyección de Caos real para pruebas
+    parser.add_argument(
+        "--chaos",
+        action="store_true",
+        help="Forzar inyección de caos probabilístico en las APIs de nube reales."
+    )
+    
+    # Grupo opcional mutuamente excluyente para el nivel de salida
+    output_group = parser.add_mutually_exclusive_group()
+
+    output_group.add_argument(
+    "--quiet",
+    action="store_true",
+    help="Reducir la salida de texto de la consola."
+    )
+
+    output_group.add_argument(
+    "--verbose",
+    action="store_true",
+    help="Mostrar información detallada de depuración."
+    )
+
+
     return parser
 
 
@@ -69,6 +85,16 @@ async def async_main():
     parser = build_cli_parser()
     args = parser.parse_args()
 
+    # Configuración dinámica de la salida de consola
+    if hasattr(logger, "listener") and logger.listener:
+        for handler in logger.listener.handlers:
+            if isinstance(handler, logging.StreamHandler) and not isinstance(handler, logging.FileHandler):
+                if args.quiet:
+                    handler.setLevel(logging.WARNING)
+                elif args.verbose:
+                    handler.setLevel(logging.DEBUG)
+                else:
+                    handler.setLevel(logging.INFO)
     logger.info("=" * 64)
     logger.info(f"  INICIANDO MONITOREO MULTICLOUD: PROYECTO TRITÓN")
     logger.info("=" * 64)
