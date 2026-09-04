@@ -5,9 +5,9 @@ El Proyecto Tritón es una consola de observabilidad de nivel industrial diseña
 
 ---
 
----
+
 ## 📺 Video de Defensa Oral: 
-**Enlace: ** https://docs.google.com/document/d/1Mp_nzfjGsd1kTsBpndy2Pp0aeUxjYPB67Ua7fjxaILA/edit?usp=sharing
+**Enlace:** https://drive.google.com/drive/folders/1XhhSIx1kWsBZDaZAC68s8R3QNZYshhh2?usp=sharing
 
 ---
 
